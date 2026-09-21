@@ -241,7 +241,7 @@ using Live Server.
 
 ## 📸 Project Screenshots
 
-Screenshots of the working web application are stored in the `screenshots` folder.
+![Spam SMS Detection Demo](screenshots/spam-detection-demo.png)
 
 ## 🚀 Future Improvements
 
