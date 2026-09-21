@@ -13,22 +13,66 @@
 
     <div class="container">
 
-        <h1>📱 Spam SMS Detection</h1>
+        <div class="icon">🛡️</div>
+
+        <h1>Spam SMS Detection</h1>
 
         <p class="subtitle">
-            Enter an SMS message to check whether it is Spam or Ham.
+            Enter an SMS message below and find out if it's spam or not.
         </p>
+
+        <div class="badge">
+            ⚡ Fast &nbsp;•&nbsp; 🛡️ Safe &nbsp;•&nbsp; 🎯 Accurate
+        </div>
 
         <textarea
             id="message"
+            maxlength="500"
             placeholder="Type your SMS message here..."
+            oninput="updateCharacterCount()"
         ></textarea>
+
+        <div class="character-count">
+            <span id="characterCount">0</span>/500
+        </div>
 
         <button onclick="checkMessage()">
             🔍 Check Message
         </button>
 
-        <div id="result"></div>
+        <div id="result" class="result-card">
+
+            <div class="result-icon">
+                🛡️
+            </div>
+
+            <div class="result-content">
+
+                <h2>Prediction Result</h2>
+
+                <p id="resultText">
+                    The result will appear here after you check the message.
+                </p>
+
+                <div class="confidence-section">
+                    <div class="confidence-header">
+                        <span>📊 Confidence</span>
+                        <span id="confidenceValue">—%</span>
+                    </div>
+
+                    <div class="confidence-bar">
+                        <div id="confidenceFill"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <footer>
+            <p>Spam SMS Detection | Powered by Machine Learning</p>
+            <p>💙 Stay Safe, Stay Smart</p>
+        </footer>
 
     </div>
 
