@@ -13,16 +13,24 @@
 
     <div class="container">
 
+        <div class="top-bar">
+            <span class="security-badge">🛡️ ML Security Tool</span>
+
+            <button class="theme-toggle" onclick="toggleDarkMode()" id="themeButton">
+                🌙 Dark Mode
+            </button>
+        </div>
+
         <div class="icon">🛡️</div>
 
         <h1>Spam SMS Detection</h1>
 
         <p class="subtitle">
-            Enter an SMS message below and find out if it's spam or not.
+            Enter an SMS message and use Machine Learning to check whether it is spam or not.
         </p>
 
         <div class="badge">
-            ⚡ Fast &nbsp;•&nbsp; 🛡️ Safe &nbsp;•&nbsp; 🎯 Accurate
+            ⚡ Fast &nbsp;•&nbsp; 🤖 Machine Learning &nbsp;•&nbsp; 🛡️ Safe
         </div>
 
         <textarea
@@ -32,14 +40,18 @@
             oninput="updateCharacterCount()"
         ></textarea>
 
-        <div class="character-count">
-            <span id="characterCount">0</span>/500
+        <div class="character-row">
+            <span id="messageHint">Enter a message to begin.</span>
+            <span>
+                <span id="characterCount">0</span>/500
+            </span>
         </div>
 
-        <button onclick="checkMessage()">
+        <button class="check-button" onclick="checkMessage()">
             🔍 Check Message
         </button>
 
+        <!-- Prediction Result -->
         <div id="result" class="result-card">
 
             <div class="result-icon">
@@ -54,7 +66,12 @@
                     The result will appear here after you check the message.
                 </p>
 
+                <div id="explanation" class="explanation"></div>
+
+                <div id="urlWarning" class="url-warning"></div>
+
                 <div class="confidence-section">
+
                     <div class="confidence-header">
                         <span>📊 Confidence</span>
                         <span id="confidenceValue">—%</span>
@@ -63,15 +80,120 @@
                     <div class="confidence-bar">
                         <div id="confidenceFill"></div>
                     </div>
+
                 </div>
 
             </div>
 
         </div>
 
+        <!-- Statistics -->
+        <div class="stats-section">
+
+            <h2>📊 Prediction Statistics</h2>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon">📩</div>
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">Total Checked</div>
+                </div>
+
+                <div class="stat-card spam-stat">
+                    <div class="stat-icon">🚨</div>
+                    <div class="stat-number" id="spamCount">0</div>
+                    <div class="stat-label">Spam</div>
+                </div>
+
+                <div class="stat-card ham-stat">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-number" id="hamCount">0</div>
+                    <div class="stat-label">Ham</div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Prediction Chart -->
+        <div class="chart-section">
+
+            <h2>📈 Prediction Overview</h2>
+
+            <div class="chart-container">
+
+                <div class="chart-item">
+
+                    <div class="chart-label">
+                        <span>🚨 Spam</span>
+                        <span id="spamPercentage">0%</span>
+                    </div>
+
+                    <div class="chart-bar">
+                        <div id="spamChartFill" class="spam-fill"></div>
+                    </div>
+
+                </div>
+
+                <div class="chart-item">
+
+                    <div class="chart-label">
+                        <span>✅ Ham</span>
+                        <span id="hamPercentage">0%</span>
+                    </div>
+
+                    <div class="chart-bar">
+                        <div id="hamChartFill" class="ham-fill"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Prediction History -->
+        <div class="history-section">
+
+            <div class="history-header">
+
+                <h2>📋 Prediction History</h2>
+
+                <div class="history-actions">
+
+                    <button class="export-button" onclick="exportHistory()">
+                        📥 Export CSV
+                    </button>
+
+                    <button class="clear-history" onclick="clearHistory()">
+                        🗑️ Clear History
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="historyList">
+
+                <p class="no-history">
+                    No prediction history yet.
+                </p>
+
+            </div>
+
+        </div>
+
         <footer>
-            <p>Spam SMS Detection | Powered by Machine Learning</p>
-            <p>💙 Stay Safe, Stay Smart</p>
+
+            <p>
+                Spam SMS Detection | Powered by Machine Learning
+            </p>
+
+            <p>
+                💙 Stay Safe, Stay Smart
+            </p>
+
         </footer>
 
     </div>
