@@ -27,11 +27,11 @@ async function checkMessage() {
         const data = await response.json();
 
         if (data.prediction === "SPAM") {
-            result.textContent = "🚨 SPAM MESSAGE";
+            result.textContent = `🚨 SPAM MESSAGE — Confidence: ${data.confidence}%`;
             result.style.backgroundColor = "#ffe5e5";
             result.style.color = "#d60000";
         } else {
-            result.textContent = "✅ HAM — NOT SPAM";
+            result.textContent = `✅ HAM — NOT SPAM — Confidence: ${data.confidence}%`;
             result.style.backgroundColor = "#e5ffe9";
             result.style.color = "#008a20";
         }

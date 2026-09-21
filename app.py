@@ -25,7 +25,12 @@ def predict():
             "error": "Please enter an SMS message."
         }), 400
 
+    # Make prediction
     prediction = model.predict([message])[0]
+
+    # Calculate confidence
+    probabilities = model.predict_proba([message])[0]
+    confidence = max(probabilities) * 100
 
     if prediction == 1:
         result = "SPAM"
@@ -33,7 +38,8 @@ def predict():
         result = "HAM"
 
     return jsonify({
-        "prediction": result
+        "prediction": result,
+        "confidence": round(confidence, 2)
     })
 
 
