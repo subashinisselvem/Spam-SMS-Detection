@@ -1,82 +1,48 @@
-# 📱 Spam SMS Detection
-
-A Machine Learning based web application that detects whether an SMS message is **Spam** or **Ham (Not Spam)**.
-
-The project uses **TF-IDF Vectorization** and **Logistic Regression** to classify SMS messages. A **Flask backend** connects the trained machine learning model with a simple web interface.
-
----
+# 📱 Spam SMS Detection using Machine Learning
 
 ## 📌 Project Overview
 
-Spam messages are unwanted messages that may contain advertisements, scams, fraudulent offers, or suspicious links.
+Spam SMS Detection is a machine learning project that classifies SMS messages as **SPAM** or **HAM (Not Spam)**.
 
-This project uses Machine Learning to automatically analyze an SMS message and classify it as:
-
-* 🚨 **SPAM**
-* ✅ **HAM (Not Spam)**
-
-The trained model is integrated into a web application where users can enter an SMS message and receive a prediction with a confidence percentage.
-
----
+The project uses Natural Language Processing (NLP), TF-IDF text vectorization, and Logistic Regression. It also includes a Flask backend and a simple web interface for real-time prediction.
 
 ## 🎯 Objective
 
-The main objectives of this project are:
+The main objectives are:
 
-* Detect spam SMS messages automatically
-* Apply Machine Learning for text classification
-* Use TF-IDF to convert text into numerical features
-* Train a Logistic Regression classification model
-* Provide a simple web interface for users
-* Display prediction confidence
-* Build a complete Machine Learning + Flask web application
-
----
+- Detect unwanted and fraudulent SMS messages.
+- Classify messages as Spam or Ham.
+- Display prediction confidence.
+- Provide a simple web interface for users.
+- Store prediction history locally.
+- Show prediction statistics.
+- Detect suspicious URLs in messages.
 
 ## 🛠️ Technologies Used
 
-### Programming Language
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- TF-IDF
+- Logistic Regression
+- Joblib
+- Flask
+- Flask-CORS
+- HTML
+- CSS
+- JavaScript
+- LocalStorage
+- Git & GitHub
 
-* Python
-* HTML
-* CSS
-* JavaScript
-
-### Machine Learning
-
-* Scikit-learn
-* Pandas
-* NumPy
-* TF-IDF Vectorization
-* Logistic Regression
-
-### Backend
-
-* Flask
-* Flask-CORS
-
-### Model Storage
-
-* Joblib
-
-### Development Tools
-
-* Visual Studio Code
-* Git
-* GitHub
-
----
-
-## 🤖 Machine Learning Approach
+## 🧠 Machine Learning Approach
 
 The project follows these steps:
 
 ```text
 SMS Dataset
      ↓
-Data Loading
-     ↓
-Text Preprocessing
+Data Preprocessing
      ↓
 TF-IDF Vectorization
      ↓
@@ -86,85 +52,40 @@ Logistic Regression
      ↓
 Model Evaluation
      ↓
-Save Trained Model
-     ↓
-Flask Backend
-     ↓
-Web Application
-     ↓
-Spam / Ham Prediction
+Prediction
 ```
+📊 Dataset
 
----
+The project uses the UCI SMS Spam Collection dataset.
 
-## 📊 Dataset
+Category	Count
+Total Messages	5,572
+Ham Messages	4,825
+Spam Messages	747
+🔤 TF-IDF Vectorization
 
-The project uses the **SMS Spam Collection Dataset**.
-
-Dataset source:
-
-**UCI Machine Learning Repository**
-
-The dataset contains:
-
-* **5,572 SMS messages**
-* **4,825 Ham messages**
-* **747 Spam messages**
-
-The dataset is divided into training and testing data.
-
-### Dataset Distribution
-
-```text
-Total Messages : 5572
-
-Ham Messages   : 4825
-Spam Messages  : 747
-```
-
----
-
-## 🧠 Model
-
-The project uses:
-
-### TF-IDF Vectorizer
-
-TF-IDF (Term Frequency-Inverse Document Frequency) converts SMS text into numerical features that can be processed by the Machine Learning model.
-
-Configuration used:
-
-```python
-TfidfVectorizer(
-    lowercase=True,
-    stop_words="english",
-    max_features=5000
-)
-```
-
-### Logistic Regression
-
-Logistic Regression is used as the classification algorithm to predict whether a message is spam or ham.
+TF-IDF converts text messages into numerical features.
 
 Configuration:
 
-```python
-LogisticRegression(max_iter=1000)
-```
+lowercase = True
+stop_words = English
+max_features = 5000
+🤖 Machine Learning Model
 
----
+The project uses Logistic Regression for classification.
 
-## 📈 Model Performance
+Training configuration:
 
-The model was evaluated using a separate test dataset.
+Train-test split: 80/20
+Random state: 42
+Stratified split
+Maximum iterations: 1000
+📈 Model Performance
 
-### Accuracy
+Accuracy: 97.04%
 
-**97.04%**
-
-### Classification Report
-
-```text
+Classification Report
               precision    recall  f1-score   support
 
          Ham       0.97      1.00      0.98       966
@@ -173,168 +94,49 @@ The model was evaluated using a separate test dataset.
     accuracy                           0.97      1115
    macro avg       0.98      0.89      0.93      1115
 weighted avg       0.97      0.97      0.97      1115
-```
-
-### Confusion Matrix
-
-```text
+Confusion Matrix
 [[966   0]
  [ 33 116]]
-```
+🌐 Web Application
 
-The model correctly classified most of the test messages, achieving an overall accuracy of **97.04%**.
+The project includes a Flask backend and a responsive web interface.
 
----
-
-## 🔍 Example Predictions
-
-### Example 1
-
-Input:
-
-```text
-Congratulations! You have won a free iPhone. Click here now to claim your prize!
-```
-
-Output:
-
-```text
-🚨 Result: SPAM
-```
-
----
-
-### Example 2
-
-Input:
-
-```text
-Hey, are you coming to college tomorrow?
-```
-
-Output:
-
-```text
-✅ Result: HAM (Not Spam)
-```
-
----
-
-# 🌐 Web Application
-
-The project includes a web-based interface where users can enter an SMS message and check whether it is spam.
-
-The frontend communicates with the Flask backend using an HTTP POST request.
-
-### Backend API
-
-```text
-POST /predict
-```
-
-The backend receives:
-
-```json
-{
-    "message": "Congratulations! You won a prize!"
-}
-```
-
-And returns a response containing:
-
-```json
-{
-    "prediction": "SPAM",
-    "confidence": 76.64
-}
-```
-
----
-
-## ✨ Web Application Features
-
-* Enter an SMS message through the web interface
-* Send the message to the Flask backend
-* Use the trained machine learning model for prediction
-* Display the result as SPAM or HAM
-* Display prediction confidence percentage
-* Visualize confidence using a progress bar
-* Character limit of 500 characters
-* Responsive and user-friendly interface
-
----
-
-## 🔄 Web Application Workflow
-
-```text
+Workflow
 User enters SMS
        ↓
-Click "Check Message"
+Frontend sends message to Flask API
        ↓
-JavaScript sends request
+TF-IDF + Logistic Regression
        ↓
-Flask Backend
+Prediction
        ↓
-Trained ML Model
+SPAM / HAM + Confidence
        ↓
-Prediction + Confidence
-       ↓
-Result displayed on Web Page
-```
+Result displayed
+✨ Features
+Spam/Ham Prediction
+Prediction Confidence
+Prediction History
+Clear History
+Prediction Statistics
+Spam vs Ham Overview
+CSV Export
+Dark Mode
+Suspicious URL Detection
+🧪 Example Predictions
+Spam Example
+Congratulations! You have won a free iPhone. Click here now to claim your prize!
 
----
+Result: SPAM
 
-## ▶️ Run the Web Application
+Ham Example
+Hey, are you coming to college tomorrow?
 
-### 1. Activate Virtual Environment
+Result: HAM (Not Spam)
 
-Open PowerShell inside the project folder:
+🖼️ Project Screenshot
 
-```powershell
-.\venv\Scripts\activate
-```
-
-### 2. Start Flask Backend
-
-Run:
-
-```powershell
-python app.py
-```
-
-The backend will run at:
-
-```text
-http://127.0.0.1:5000
-```
-
-### 3. Open the Web Application
-
-Open:
-
-```text
-web/index.html
-```
-
-in your browser.
-
-Enter an SMS message and click:
-
-```text
-🔍 Check Message
-```
-
-The application will display:
-
-* Prediction
-* Confidence percentage
-* Visual confidence bar
-
----
-
-# 🗂️ Project Structure
-
-```text
+📁 Project Structure
 Spam SMS Detection
 │
 ├── dataset
@@ -352,124 +154,90 @@ Spam SMS Detection
 │   └── style.css
 │
 ├── venv
-│
 ├── app.py
 ├── train_model.py
 ├── predict.py
 ├── requirements.txt
 ├── README.md
 └── .gitignore
-```
-
----
-
-# ⚙️ How to Run
-
-### Step 1 — Clone the Repository
-
-```bash
+⚙️ Installation
+1. Clone the repository
 git clone https://github.com/subashinisselvem/Spam-SMS-Detection.git
-```
-
-### Step 2 — Open the Project
-
-```bash
 cd Spam-SMS-Detection
-```
-
-### Step 3 — Create Virtual Environment
-
-```bash
+2. Create virtual environment
 python -m venv venv
-```
-
-### Step 4 — Activate Virtual Environment
-
-```powershell
+3. Activate virtual environment
 .\venv\Scripts\activate
-```
-
-### Step 5 — Install Dependencies
-
-```bash
+4. Install dependencies
 pip install -r requirements.txt
-```
-
-### Step 6 — Train the Model
-
-```bash
+🏋️ Train the Model
 python train_model.py
-```
 
-This creates:
+The trained model will be saved as:
 
-```text
 model/spam_classifier.pkl
-```
+💻 Command-Line Prediction
+python predict.py
 
-### Step 7 — Run the Flask Application
+Enter an SMS message when prompted.
 
-```bash
+🚀 Run the Web Application
+
+Start the Flask backend:
+
 python app.py
-```
 
-### Step 8 — Open the Web Interface
+The backend runs at:
 
-Open:
+http://127.0.0.1:5000
 
-```text
+Then open:
+
 web/index.html
-```
+🔌 API Endpoint
+POST /predict
 
-in your browser.
+Example request:
 
----
+{
+  "message": "Congratulations! You won a free prize!"
+}
 
-## 📦 Requirements
+Example response:
 
-The main Python libraries used are:
+{
+  "prediction": "SPAM",
+  "confidence": 76.64
+}
+🔐 Privacy
 
-```text
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-joblib
-Flask
-flask-cors
-```
+Prediction history is stored locally in the browser using LocalStorage.
 
-They can be installed using:
+The project is intended for educational and demonstration purposes.
 
-```bash
-pip install -r requirements.txt
-```
+🔮 Future Improvements
+Deep learning models such as LSTM or BERT
+Larger and more recent SMS datasets
+Better detection of obfuscated spam
+Explainable AI
+Cloud deployment
+User authentication
+Database-based prediction history
+Multilingual SMS detection
+📌 Project Status
 
----
+Completed
 
-## 📸 Project Screenshots
+The project currently supports:
 
-![Spam SMS Detection Demo](screenshots/spam-detection-demo.png)
-
----
-
-## 🚀 Future Improvements
-
-* Improve spam recall
-* Add more training data
-* Try additional machine learning algorithms
-* Improve the user interface
-* Deploy the web application online
-* Add support for multiple languages
-* Explore real-time SMS classification
-
----
-
-## 📌 Project Status
-
-**Completed ✅**
-
-The machine learning model has been trained and tested successfully with an accuracy of **97.04%**.
-
-The project also includes a working **Flask backend and web-based SMS spam detection interface**.
+Machine learning model training
+Spam/Ham prediction
+Flask API
+Web interface
+Prediction confidence
+Prediction history
+Statistics
+CSV export
+Dark mode
+Suspicious URL detection
+GitHub version control
