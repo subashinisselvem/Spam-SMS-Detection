@@ -25,6 +25,14 @@ while True:
 
     prediction = model.predict([message])[0]
 
+    probabilities = model.predict_proba([message])[0]
+
+    print(
+        f"Debug probabilities - "
+        f"HAM: {probabilities[0] * 100:.2f}%, "
+        f"SPAM: {probabilities[1] * 100:.2f}%"
+    )
+
     if prediction == 1:
         print("🚨 Result: SPAM\n")
     else:

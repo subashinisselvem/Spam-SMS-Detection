@@ -63,18 +63,25 @@ print(f"Testing messages: {len(X_test)}")
 
 
 # ==========================================
-# 5. Create TF-IDF + Logistic Regression Model
+# 5. Create Improved Model
 # ==========================================
 
 model = Pipeline([
-    ("tfidf", TfidfVectorizer(
-        lowercase=True,
-        stop_words="english",
-        max_features=5000
-    )),
-    ("classifier", LogisticRegression(
-        max_iter=1000
-    ))
+    (
+        "tfidf",
+        TfidfVectorizer(
+            lowercase=True,
+            stop_words="english",
+            max_features=5000
+        )
+    ),
+    (
+        "classifier",
+        LogisticRegression(
+            max_iter=1000,
+            class_weight="balanced"
+        )
+    )
 ])
 
 
@@ -82,11 +89,11 @@ model = Pipeline([
 # 6. Train Model
 # ==========================================
 
-print("\nTraining model...")
+print("\nTraining improved model...")
 
 model.fit(X_train, y_train)
 
-print("Model training completed!")
+print("Improved model training completed!")
 
 
 # ==========================================
@@ -103,19 +110,25 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 
 print("\n===================================")
-print("MODEL EVALUATION")
+print("IMPROVED MODEL EVALUATION")
 print("===================================")
 
 print(f"Accuracy: {accuracy * 100:.2f}%")
 
+
 print("\nClassification Report:")
-print(classification_report(
-    y_test,
-    y_pred,
-    target_names=["Ham", "Spam"]
-))
+
+print(
+    classification_report(
+        y_test,
+        y_pred,
+        target_names=["Ham", "Spam"]
+    )
+)
+
 
 print("\nConfusion Matrix:")
+
 print(confusion_matrix(y_test, y_pred))
 
 
@@ -127,7 +140,9 @@ model_path = "model/spam_classifier.pkl"
 
 joblib.dump(model, model_path)
 
+
 print("\n===================================")
-print("MODEL SAVED SUCCESSFULLY!")
+print("IMPROVED MODEL SAVED SUCCESSFULLY!")
 print("===================================")
+
 print(f"Saved to: {model_path}")

@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import joblib
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="web")
 CORS(app)
 
 # Load trained machine learning model
@@ -11,7 +12,17 @@ model = joblib.load("model/spam_classifier.pkl")
 
 @app.route("/")
 def home():
-    return "Spam SMS Detection Backend is Running!"
+    return send_from_directory("web", "index.html")
+
+
+@app.route("/<path:path>")
+def serve_frontend(path):
+    file_path = os.path.join("web", path)
+
+    if os.path.isfile(file_path):
+        return send_from_directory("web", path)
+
+    return send_from_directory("web", "index.html")
 
 
 @app.route("/predict", methods=["POST"])
