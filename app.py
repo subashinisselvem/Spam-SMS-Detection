@@ -2,9 +2,15 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import joblib
 import os
+from supabase import create_client
 
 app = Flask(__name__, static_folder="web")
 CORS(app)
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Load trained machine learning model
 model = joblib.load("model/spam_classifier.pkl")
@@ -47,6 +53,13 @@ def predict():
         result = "SPAM"
     else:
         result = "HAM"
+
+        # Save prediction to Supabase
+    supabase.table("predictions").insert({
+        "message": message,
+        "prediction": result,
+        "confidence": round(confidence, 2)
+    }).execute()    
 
     return jsonify({
         "prediction": result,
