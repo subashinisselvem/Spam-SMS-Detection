@@ -210,18 +210,9 @@ async function checkMessage() {
         }
 
 
-        /* Save prediction */
+        /* Refresh dashboard from Supabase */
 
-        savePrediction(
-            message,
-            data.prediction,
-            confidence
-        );
-
-
-        /* Update dashboard */
-
-        updateDashboard();
+await loadHistoryFromServer();
 
     }
 
@@ -288,6 +279,34 @@ function savePrediction(message, prediction, confidence) {
     );
 }
 
+/* =========================
+   LOAD HISTORY FROM SERVER
+========================= */
+
+async function loadHistoryFromServer() {
+
+    try {
+
+        const response = await fetch("/history");
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Unable to load history");
+        }
+
+        displayHistory(data.history);
+
+        updateDashboardFromHistory(data.history);
+
+    } catch (error) {
+
+        console.error("History loading error:", error);
+
+        updateDashboard();
+    }
+}
+
 
 /* =========================
    GET HISTORY
@@ -307,6 +326,62 @@ function getHistory() {
 
         return [];
     }
+}
+
+/* =========================
+   UPDATE DASHBOARD FROM SERVER HISTORY
+========================= */
+
+function updateDashboardFromHistory(history) {
+
+    const total = history.length;
+
+    const spam = history.filter(
+        item => item.prediction === "SPAM"
+    ).length;
+
+    const ham = history.filter(
+        item => item.prediction === "HAM"
+    ).length;
+
+
+    /* Statistics */
+
+    document.getElementById("totalCount").textContent = total;
+
+    document.getElementById("spamCount").textContent = spam;
+
+    document.getElementById("hamCount").textContent = ham;
+
+
+    /* Percentages */
+
+    let spamPercentage = 0;
+    let hamPercentage = 0;
+
+
+    if (total > 0) {
+
+        spamPercentage =
+            Math.round((spam / total) * 100);
+
+        hamPercentage =
+            Math.round((ham / total) * 100);
+    }
+
+
+    document.getElementById("spamPercentage").textContent =
+        `${spamPercentage}%`;
+
+    document.getElementById("hamPercentage").textContent =
+        `${hamPercentage}%`;
+
+
+    document.getElementById("spamChartFill").style.width =
+        `${spamPercentage}%`;
+
+    document.getElementById("hamChartFill").style.width =
+        `${hamPercentage}%`;
 }
 
 
@@ -639,6 +714,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadDarkMode();
 
-    updateDashboard();
+    loadHistoryFromServer();
 
 });

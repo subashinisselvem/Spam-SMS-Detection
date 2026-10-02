@@ -31,8 +31,37 @@ def serve_frontend(path):
     return send_from_directory("web", "index.html")
 
 
+@app.route("/history", methods=["GET"])
+def history():
+
+    response = (
+        supabase
+        .table("predictions")
+        .select("message, prediction, confidence, created_at")
+        .order("created_at", desc=True)
+        .limit(50)
+        .execute()
+    )
+
+    history = []
+
+    for item in response.data:
+
+        history.append({
+            "message": item["message"],
+            "prediction": item["prediction"],
+            "confidence": item["confidence"],
+            "time": item["created_at"]
+        })
+
+    return jsonify({
+        "history": history
+    })
+
+
 @app.route("/predict", methods=["POST"])
 def predict():
+
     data = request.get_json()
 
     message = data.get("message", "").strip()
@@ -54,12 +83,12 @@ def predict():
     else:
         result = "HAM"
 
-        # Save prediction to Supabase
+    # Save prediction to Supabase
     supabase.table("predictions").insert({
         "message": message,
         "prediction": result,
         "confidence": round(confidence, 2)
-    }).execute()    
+    }).execute()
 
     return jsonify({
         "prediction": result,
